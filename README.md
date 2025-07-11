@@ -61,7 +61,7 @@ To perform data analysis on retail sales data using SQL to answer common busines
        cogs FLOAT,
        total_sale FLOAT
    );
-# Import CSV Data
+## Import CSV Data
 
 BULK INSERT retail_sales
 FROM 'C:\temp\Retail_sales.csv'
@@ -69,7 +69,7 @@ WITH (
     FORMAT='CSV',
     FIRSTROW=2
 );
-Data Cleaning
+## Data Cleaning
 Checked for NULL values in essential columns.
 
 Deleted records with missing critical fields.
@@ -80,48 +80,44 @@ WHERE transactions_id IS NULL OR sale_date IS NULL OR ...;
 DELETE FROM retail_sales
 WHERE transactions_id IS NULL OR sale_date IS NULL OR ...;
 
-Exploratory Data Analysis
-
-Total Transactions
+## Exploratory Data Analysis
 
 SELECT COUNT(*) FROM retail_sales;
-Unique Customers
 
 SELECT COUNT(DISTINCT customer_id) FROM retail_sales;
-Available Categories
 
 SELECT DISTINCT category FROM retail_sales;
 
-Business Questions Answered
+## Business Questions Answered
 
-Q1. Sales made on 2022-11-05
+### 1. Sales made on 2022-11-05
 
 SELECT * FROM retail_sales WHERE sale_date = '2022-11-05';
 
-Q2. 'Clothing' sales with quantity > 3 in Nov 2022
+### 2. 'Clothing' sales with quantity > 3 in Nov 2022
 
 SELECT * FROM retail_sales
 WHERE MONTH(sale_date) = 11 AND category = 'Clothing' AND quantity > 3;
 
-Q3. Total sales and orders by category
+### 3. Total sales and orders by category
 
 SELECT category, SUM(total_sale) AS Net_Sale, COUNT(*) AS total_orders
 FROM retail_sales GROUP BY category;
 
-Q4. Average age of customers (Beauty category)
+### 4. Average age of customers (Beauty category)
 
 SELECT AVG(age) FROM retail_sales WHERE category = 'Beauty';
 
-Q5. Transactions with sales > 1000
+### 5. Transactions with sales > 1000
 
 SELECT * FROM retail_sales WHERE total_sale > 1000;
 
-Q6. Gender-wise sales by category
+### 6. Gender-wise sales by category
 
 SELECT gender, category, COUNT(*) AS Total_Transactions
 FROM retail_sales GROUP BY gender, category;
 
-Q7. Best month each year (based on avg sale)
+### 7. Best month each year (based on avg sale)
 
 SELECT * FROM (
   SELECT YEAR(sale_date) AS Year, MONTH(sale_date) AS Month,
@@ -131,17 +127,17 @@ SELECT * FROM (
   GROUP BY YEAR(sale_date), MONTH(sale_date)
 ) AS t WHERE Rank = 1;
 
-Q8. Top 5 customers by total sale
+### 8. Top 5 customers by total sale
 
 SELECT TOP 5 customer_id, SUM(total_sale) AS Total_Sale
 FROM retail_sales GROUP BY customer_id ORDER BY Total_Sale DESC;
 
-Q9. Unique customers by category
+### 9. Unique customers by category
 
 SELECT category, COUNT(DISTINCT customer_id) AS cnt_unique_cust
 FROM retail_sales GROUP BY category;
 
-Q10. Sales shift analysis (Morning, Afternoon, Evening)
+### 10. Sales shift analysis (Morning, Afternoon, Evening)
 
 WITH hourly_sale AS (
   SELECT *,
