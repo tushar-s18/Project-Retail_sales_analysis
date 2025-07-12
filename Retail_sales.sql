@@ -1,6 +1,6 @@
-CREATE DATABASE project;
+CREATE DATABASE Retail_sales_analysis;
 
-Use project
+Use Retail_sales_analysis
 
 -- Create TABLE
 DROP TABLE IF EXISTS retail_sales;
