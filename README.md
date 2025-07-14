@@ -90,15 +90,20 @@ Checked for NULL values in essential columns.
        cogs IS NULL
        OR
        total_sale IS NULL;
-      ```
-## Exploratory Data Analysis
-   ```sql
-   SELECT COUNT(*) FROM retail_sales;
-
-   SELECT COUNT(DISTINCT customer_id) FROM retail_sales;
-
-   SELECT DISTINCT category FROM retail_sales;
    ```
+## Exploratory Data Analysis
+
+```sql
+   SELECT COUNT(*) FROM retail_sales;
+```
+
+```sql
+   SELECT COUNT(DISTINCT customer_id) FROM retail_sales;
+```
+
+```sql
+   SELECT DISTINCT category FROM retail_sales;
+```
 ## Business Questions Answered
 
 ### 1. Sales made on 2022-11-05
@@ -120,7 +125,7 @@ Checked for NULL values in essential columns.
    SELECT AVG(age) FROM retail_sales WHERE category = 'Beauty';
    ```
 ### 5. Transactions with sales > 1000
-    ```sql
+   ```sql
    SELECT * FROM retail_sales WHERE total_sale > 1000;
    ```
 ### 6. Gender-wise sales by category
