@@ -112,30 +112,45 @@ Checked for NULL values in essential columns.
 
 ### 1. Sales made on 2022-11-05
    ```sql
-   SELECT * FROM retail_sales WHERE sale_date = '2022-11-05';
+   SELECT * FROM retail_sales
+   WHERE sale_date = '2022-11-05';
    ```
 ### 2. 'Clothing' sales with quantity > 3 in Nov 2022
    ```sql
    SELECT * FROM retail_sales
-   WHERE MONTH(sale_date) = 11 AND category = 'Clothing' AND quantity > 3;
+   WHERE MONTH(sale_date) = 11
+   AND
+   category = 'Clothing'
+   AND
+   quantity > 3;
    ```
 ### 3. Total sales and orders by category
    ```sql
-   SELECT category, SUM(total_sale) AS Net_Sale, COUNT(*) AS total_orders
-   FROM retail_sales GROUP BY category;
+   SELECT
+   category,
+   SUM(total_sale) AS Net_Sale,
+   COUNT(*) AS total_orders
+   FROM retail_sales
+   GROUP BY category;
    ```
 ### 4. Average age of customers (Beauty category)
    ```sql
-   SELECT AVG(age) FROM retail_sales WHERE category = 'Beauty';
+   SELECT AVG(age) FROM retail_sales
+   WHERE category = 'Beauty';
    ```
 ### 5. Transactions with sales > 1000
    ```sql
-   SELECT * FROM retail_sales WHERE total_sale > 1000;
+   SELECT * FROM retail_sales
+   WHERE total_sale > 1000;
    ```
 ### 6. Gender-wise sales by category
    ```sql
-   SELECT gender, category, COUNT(*) AS Total_Transactions
-   FROM retail_sales GROUP BY gender, category;
+   SELECT
+   gender,
+   category,
+   COUNT(*) AS Total_Transactions
+   FROM retail_sales
+   GROUP BY gender, category;
    ```
 ### 7. Best month each year (based on avg sale)
    ```sql
@@ -150,12 +165,17 @@ Checked for NULL values in essential columns.
 ### 8. Top 5 customers by total sale
    ```sql
    SELECT TOP 5 customer_id, SUM(total_sale) AS Total_Sale
-   FROM retail_sales GROUP BY customer_id ORDER BY Total_Sale DESC;
+   FROM retail_sales
+   GROUP BY customer_id
+   ORDER BY Total_Sale DESC;
    ```
 ### 9. Unique customers by category
    ```sql
-   SELECT category, COUNT(DISTINCT customer_id) AS cnt_unique_cust
-   FROM retail_sales GROUP BY category;
+   SELECT
+   category,
+   COUNT(DISTINCT customer_id) AS cnt_unique_cust
+   FROM retail_sales
+   GROUP BY category;
    ```
 ### 10. Sales shift analysis (Morning, Afternoon, Evening)
    ```sql
@@ -168,8 +188,10 @@ Checked for NULL values in essential columns.
        END AS Shift
    FROM retail_sales
    )
-   SELECT Shift, COUNT(*) AS no_of_orders
-   FROM hourly_sale GROUP BY Shift;
+   SELECT Shift,
+   COUNT(*) AS no_of_orders
+   FROM hourly_sale
+   GROUP BY Shift;
    ```
 
 
