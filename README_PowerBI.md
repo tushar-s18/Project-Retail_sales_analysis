@@ -4,14 +4,6 @@ This Power BI dashboard presents an interactive analysis of **Retail Sales** dat
 
 ---
 
-## Files Included
-
-- `Retail_Sales_Analysis.pbix` – The Power BI report file.
-- SQL files and sample data (in root or `/sql` directory).
-- (Optional) Dashboard screenshots in the `/images` folder.
-
----
-
 ## 📋 Page 1: Sales Overview
 
 ### Visual Elements:
