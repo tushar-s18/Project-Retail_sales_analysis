@@ -1,24 +1,26 @@
-# Retail Sales Data Analysis using SQL
+# 🛍️ Retail Sales Data Analysis – SQL & Power BI
 
-This project involves building and analyzing a **Retail Sales** dataset using SQL Server. The analysis covers key business questions, data cleaning, exploratory analysis, and deriving insights based on transactional retail sales data.
-
-## Project Structure
-
-- **Database**: `Retail_sales_analysis`
-- **Table**: `retail_sales`
-- **Data Source**: CSV file (`Retail_sales.csv`)
-- **Tech Stack**: SQL Server, T-SQL
+This project demonstrates end-to-end data analysis on **Retail Sales** data using **SQL Server** for backend analysis and **Power BI** for interactive visualization.
 
 ---
 
-## Objective
+## 🗃️ Tech Stack
 
-To perform data analysis on retail sales data using SQL to answer common business questions such as:
-- Total sales volume
-- Best performing product categories
-- Top customers
-- Time-based sales trends (shift analysis)
-- Customer demographics and behavior
+- **Backend**: SQL Server, T-SQL  
+- **Visualization**: Power BI, DAX  
+- **Data Source**: `Retail_sales.csv`
+
+---
+
+## 📌 Objective
+
+To derive business insights from retail sales data using SQL and visualize them in Power BI dashboards, covering:
+
+- Sales performance
+- Top-performing categories and customers
+- Customer demographics
+- Time-based sales patterns and shifts
+- Drill-through and interactive reports
 
 ---
 
@@ -39,6 +41,8 @@ To perform data analysis on retail sales data using SQL to answer common busines
 | total_sale        | Total sale value                 |
 
 ---
+
+## 🧮 SQL Analysis
 
 ## Setup Instructions
 
@@ -167,3 +171,95 @@ Checked for NULL values in essential columns.
    SELECT Shift, COUNT(*) AS no_of_orders
    FROM hourly_sale GROUP BY Shift;
    ```
+
+
+## 📊 Power BI Dashboard
+
+An interactive dashboard built on the same dataset, offering visual insight into sales trends, top customers, category performance, and sales shifts.
+
+---
+
+## 📋 Page 1: Sales Overview
+
+### Visual Elements:
+
+- **Header**: `RETAIL SALES`
+- **KPI Cards**:
+  - `Total Sale`: Total revenue.
+  - `Top 5 Customers - Sale`: Sum of sales for the top 5 customers.
+
+    ```DAX
+    Top5CustomerSales =
+    SUMX(
+        TOPN(
+            5,
+            VALUES(retail_sales[customer_id]),
+            CALCULATE(SUM(retail_sales[total_sale])),
+            DESC
+        ),
+        CALCULATE(SUM(retail_sales[total_sale]))
+    )
+    ```
+
+- **Slicer Filters**:
+  - Year
+  - Gender
+  - Category
+
+- **Top 5 Customers Table**:
+  - Shows customer ID, total sales, and ranking.
+  - DAX used for ranking:
+
+    ```DAX
+    Top_5_Rank =
+    IF (
+        HASONEVALUE(retail_sales[customer_id]),
+        RANKX(
+            ALL(retail_sales[customer_id]),
+            CALCULATE(SUM(retail_sales[total_sale])),
+            ,
+            DESC
+        )
+    )
+    ```
+
+  - Applied filter: Top N = 5 customers by sales.
+
+- **Pie Chart – Total Sales by Shift**  
+  Created using a derived column:
+
+    ```DAX
+    Shift =
+    SWITCH(
+        TRUE(),
+        HOUR(retail_sales[sale_time]) < 12, "Morning",
+        HOUR(retail_sales[sale_time]) < 17, "Afternoon",
+        "Evening"
+    )
+    ```
+
+  - Drill-through enabled to **Page 4: Sales by Shift**
+
+- **Stacked Column Chart – Total Sales by Category**
+  - Drill-through enabled to **Page 3: Total Sales by Category**
+
+- **Line Chart – Total Sales by Month**
+
+---
+
+## Page 2: Sales Details
+
+- **Same KPI Cards and Slicer Filters** as Page 1.
+- **Stacked Column Chart – Sales Status by Shift**:
+  
+  Created with a custom column:
+
+  ```DAX
+  Sale_Status =
+  IF (
+      retail_sales[total_sale] <= 500, "Low Sale",
+      IF (
+          retail_sales[total_sale] <= 1500, "Normal Sale",
+          "High Sale"
+      )
+  )
