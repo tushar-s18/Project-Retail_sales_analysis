@@ -179,19 +179,20 @@ Checked for NULL values in essential columns.
    ```
 ### 10. Sales shift analysis (Morning, Afternoon, Evening)
    ```sql
-   WITH hourly_sale AS (
-   SELECT *,
-       CASE 
-         WHEN DATEPART(hour, sale_time) < 12 THEN 'Morning'
-         WHEN DATEPART(hour, sale_time) BETWEEN 12 AND 17 THEN 'Afternoon'
-         ELSE 'Evening'
-       END AS Shift
-   FROM retail_sales
+   with hourly_sale AS(
+   select *,
+   Case
+	   when Datepart(hour,sale_time) <12 then 'Morning'
+	   when Datepart(hour,sale_time) Between 12 and 17 then 'Afternoon'
+	   else 'Evening'
+	   End as Shift
+   from retail_sales
    )
-   SELECT Shift,
-   COUNT(*) AS no_of_orders
-   FROM hourly_sale
-   GROUP BY Shift;
+
+   select shift,
+   Count(*) as no_of_orders
+   from hourly_sale
+   group by shift
    ```
 
 
